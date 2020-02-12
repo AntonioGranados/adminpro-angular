@@ -5,3 +5,14 @@
 .pointer {
     cursor: pointer;
 }
+
+.google {
+    cursor: pointer;
+    background: red;
+    border: none;
+    border-radius: 5px;
+}
+
+.w150 {
+    width: 150px;
+}
