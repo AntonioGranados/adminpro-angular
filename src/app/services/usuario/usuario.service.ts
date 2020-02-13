@@ -87,11 +87,13 @@ export class UsuarioService {
   actualizarUsuario(usuario: Usuario) {
     let url = URL_SERVICIOS + '/usuario/' + usuario._id; // url del servicio para actualizar usuario
     url += '?token=' + this.token;
-    console.log(url);
+
     return this.http.put(url, usuario).pipe(map((resp: any) => {
-      // this.usuario = resp.usuario;
-      let usuarioDB: Usuario = resp.usuario;
-      this.guardarStorage(usuarioDB._id, this.token, usuarioDB ); // Guardamos el usuario actualizado en el localstorage
+      if (usuario._id === this.usuario._id) { // Si el usuario de la respuesta es igual al usuario que esta logueado actualmente
+        // this.usuario = resp.usuario;
+        let usuarioDB: Usuario = resp.usuario;
+        this.guardarStorage(usuarioDB._id, this.token, usuarioDB ); // Guardamos el usuario actualizado en el localstorage
+      }
       Swal.fire('Usuario Actualizado', usuario.nombre, 'success');
       return true;
     }));
@@ -105,5 +107,28 @@ export class UsuarioService {
     }).catch(resp => {
       console.log(resp);
     });
+  }
+
+  cargarUsuarios(desde: number = 0) {
+    let url = URL_SERVICIOS + '/usuario?desde=' + desde; // definimos la ruta del servicio
+
+    return this.http.get(url); // hacemos la peticion
+  }
+
+  buscarUsuario(termino: string) {
+    let url = URL_SERVICIOS + '/busqueda/coleccion/usuarios/' + termino; // definimos la ruta del servicio
+    return this.http.get(url).pipe(map((resp: any) => { // hacemos la peticion
+      return resp.usuarios; // regresamos los usuarios
+    }));
+  }
+
+  borrarUsuario(id: string) {
+    let url = URL_SERVICIOS + '/usuario/' + id; // definimos la ruta del servicio
+    url += '?token=' + this.token; // tambien el token
+
+    return this.http.delete(url).pipe(map((resp: any) => { // hacemos la peticion
+      Swal.fire('Usuario Eliminado', 'El usuario ha sido eliminado correctamente', 'success');
+      return true;
+    }));
   }
 }
