@@ -1,0 +1,78 @@
+<div class="row animated fadeIn">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+
+                <input #input (keyup)="buscarMedico(input.value)" type="text" class="form-control" placeholder="Buscar Medicos...">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row animated fadeIn" *ngIf="cargando">
+    <div class="col-sm-12">
+        <div class="alert alert-warning text-center">
+            <strong>Cargando...</strong>
+            <br>
+            <i class="fas fa-refresh fa-spin fa-2x"></i>
+            <br>
+            <span>Espere por favor...</span>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="text-right">
+                    <button [routerLink]="['/medico', 'nuevo']" type="button" class="btn waves-effect waves-light btn-rounded btn-primary"><i class="fas fa-plus"></i> Crear Médico</button>
+                </div>
+
+                <h3 class="card-title">Médicos Registrados (<small>{{_medicoService.totalMedicos}}</small>)</h3>
+
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Foto</th>
+                            <th>Médico</th>
+                            <th>Hospital</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let medico of medicos">
+                            <td>
+                                <img [src]="medico.img | imagen:'medico'" class="img-50 img-circle">
+                            </td>
+                            <td>{{medico.nombre}}</td>
+                            <td>{{medico.hospital['nombre']}}</td>
+                            <td>
+                                <button [routerLink]="['/medico', medico._id]" class="btn btn-primary editar">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+
+                                <button (click)="borrarMedico(medico)" class="btn btn-danger">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+
+                <button (click)="cambiarDesde(-5)" [disabled]="desde < 5" class="btn btn-secondary anteriores">
+                    Anteriores
+                </button>
+
+                <button (click)="cambiarDesde(5)" [disabled]=" desde + 5 >= _medicoService.totalMedicos" class="btn btn-secondary">
+                    Siguientes
+                </button>
+
+
+
+            </div>
+        </div>
+    </div>
+</div>

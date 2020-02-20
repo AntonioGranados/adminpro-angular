@@ -84,7 +84,7 @@ export class UsuariosComponent implements OnInit {
       cancelButtonColor: '#d33',
       confirmButtonText: 'Sí, Eliminar'
     }).then((eliminar) => {
-        if (eliminar) {
+        if (eliminar.value) {
           this._usuarioService.borrarUsuario(usuario._id).subscribe((borrado: any) => { // llamamos la funcion del servicio
             console.log(borrado);
             this.totalRegistros--;

@@ -67,7 +67,7 @@ export class UsuarioService {
      } else {
        localStorage.removeItem('email');
      }
-    
+
      let url = URL_SERVICIOS + '/login'; // definimos la url del servicio
      return this.http.post(url, usuario).pipe(map((resp: any) => { // hacemos la peticion
       this.guardarStorage(resp.id, resp.token, resp.usuario);

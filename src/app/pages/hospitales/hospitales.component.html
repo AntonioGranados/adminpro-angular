@@ -1,0 +1,77 @@
+<div class="row animated fadeIn">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+
+                <input #input (keyup)="buscarHospital(input.value)" type="text" class="form-control" placeholder="Buscar Hospitales...">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row animated fadeIn" *ngIf="cargando">
+    <div class="col-sm-12">
+        <div class="alert alert-warning text-center">
+            <strong>Cargando...</strong>
+            <br>
+            <i class="fas fa-refresh fa-spin fa-2x"></i>
+            <br>
+            <span>Espere por favor...</span>
+        </div>
+    </div>
+</div>
+
+<div class="row animated fadeIn" *ngIf="!cargando">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="text-right">
+                    <button (click)="crearHospital()" type="button" class="btn waves-effect waves-light btn-rounded btn-primary"><i class="fas fa-plus"></i> Crear Hospital</button>
+                </div>
+
+                <h3 class="card-title">Hospitales registrados (<small>{{_hospitalService.totalHospitales}}</small>) </h3>
+
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Hospital</th>
+                            <th>Imagen</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr *ngFor="let hospital of hospitales">
+                            <td>
+                                <input type="text" [(ngModel)]="hospital.nombre" name="nombre" class="form-control" placeholder="Nombre del Hospital...">
+                            </td>
+                            <td class="w-70">
+                                <img (click)="actualizarImagen(hospital)" [src]="hospital.img | imagen:'hospital'" class="img-50 pointer">
+
+                            </td>
+                            <td>
+                                <button (click)="actualizarHospital(hospital)" class="btn btn-primary editar">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+
+                                <button (click)="borrarHospital(hospital)" class="btn btn-danger">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <button (click)="cambiarDesde(-5)" [disabled]="desde < 5" class="btn btn-secondary anteriores">
+                    Anteriores
+                </button>
+
+                <button (click)="cambiarDesde(5)" [disabled]=" desde + 5 >= totalRegistros" class="btn btn-secondary">
+                    Siguientes
+                </button>
+
+            </div>
+        </div>
+    </div>
+</div>
