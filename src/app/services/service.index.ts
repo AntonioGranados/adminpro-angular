@@ -1,4 +1,6 @@
 export { LoginGuardGuard } from './guards/login-guard.guard';
+export { AdminGuard } from './guards/admin.guard';
+
 export { UsuarioService } from './usuario/usuario.service';
 export { HosptialService } from './hospital/hosptial.service';
 export { MedicoService } from './medico/medico.service';
